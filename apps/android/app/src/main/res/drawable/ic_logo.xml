@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Two conversational arcs becoming a subtle sound wave (Product Experience Spec 5). -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="48dp" android:height="48dp" android:viewportWidth="48" android:viewportHeight="48">
+    <path android:fillColor="#081522" android:pathData="M0,0h48v48h-48z" />
+    <path android:strokeColor="#70E6D0" android:strokeWidth="3.5" android:strokeLineCap="round"
+        android:pathData="M14,30a12,12 0,0 1,0 -12M34,18a12,12 0,0 1,0 12M20,27v-6M24,30v-12M28,27v-6" />
+</vector>

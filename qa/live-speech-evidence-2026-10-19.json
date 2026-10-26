@@ -1,0 +1,37 @@
+{
+  "date": "2026-10-19",
+  "scope": "Persistent live ASR implementation; local acceptance only",
+  "backend": {
+    "host_python": "3.14",
+    "host_tests_passed": 117,
+    "container_platform": "Linux ARM64 / Python 3.12",
+    "container_tests_passed": 117,
+    "database": "PostgreSQL 16 with pgvector, real migrations and RLS",
+    "image": "meetsaathi-backend:continuation",
+    "image_id": "sha256:8dd203170cd5f3bc2bc43475aa055297179fa25298831fa94908017a51dc1fbd"
+  },
+  "android": {
+    "jvm_tests_passed": 16,
+    "assemble_debug": "PASS",
+    "lint_debug": "PASS",
+    "java": "21"
+  },
+  "swift": {
+    "shared_package_tests_passed": 17,
+    "platform": "macOS",
+    "ios_sdk_build": "NOT_RUN"
+  },
+  "speech": {
+    "live_integration_cases_passed": 12,
+    "provider_and_transport": "Explicit test doubles only",
+    "actual_aws_calls": "NOT_RUN",
+    "actual_latency_quality_benchmarks": "NOT_RUN"
+  },
+  "security": {
+    "source_secret_scan": "PASS, no exclusions",
+    "container_high_critical_findings": 44,
+    "unique_cves": 8,
+    "container_release_gate": "FAIL, no waivers"
+  },
+  "release": "INCOMPLETE; original end-to-end goal remains active"
+}

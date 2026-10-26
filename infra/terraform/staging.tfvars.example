@@ -1,0 +1,12 @@
+environment = "staging"
+region = "ap-south-1"
+certificate_arn = "arn:aws:acm:ap-south-1:YOUR_ACCOUNT:certificate/YOUR_CERTIFICATE"
+alarm_topic_arn = "arn:aws:sns:ap-south-1:YOUR_ACCOUNT:meetsaathi-operations"
+image = "YOUR_ACCOUNT.dkr.ecr.ap-south-1.amazonaws.com/meetsaathi-staging@sha256:REPLACE_WITH_IMAGE_DIGEST"
+collector_image = "YOUR_ACCOUNT.dkr.ecr.ap-south-1.amazonaws.com/meetsaathi-collector@sha256:REPLACE_WITH_IMAGE_DIGEST"
+# Keep services off for bootstrap; infra/deploy.py promotes them only after migrations pass.
+services_enabled = false
+# Enable after AWS model access, destination region, disclosures and provider evaluations are approved.
+transcribe_enabled = false
+bedrock_model_id = ""
+bedrock_model_arn = ""

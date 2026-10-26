@@ -1,0 +1,76 @@
+name: deploy
+on:
+  workflow_dispatch:
+    inputs:
+      target:
+        type: choice
+        options: [staging, prod]
+        required: true
+permissions:
+  contents: read
+concurrency:
+  group: deploy-${{ inputs.target }}
+  cancel-in-progress: false
+jobs:
+  checks:
+    uses: ./.github/workflows/ci.yml
+  deploy:
+    needs: checks
+    runs-on: ubuntu-latest
+    environment: ${{ inputs.target }}
+    permissions:
+      contents: read
+      id-token: write
+    env:
+      AWS_REGION: ${{ vars.AWS_REGION }}
+      TF_VAR_region: ${{ vars.AWS_REGION }}
+      TF_VAR_environment: ${{ inputs.target }}
+      TF_VAR_certificate_arn: ${{ vars.API_CERTIFICATE_ARN }}
+      TF_VAR_alarm_topic_arn: ${{ vars.ALARM_TOPIC_ARN }}
+      TF_VAR_collector_image: ${{ vars.COLLECTOR_IMAGE }}
+      TF_VAR_bedrock_model_id: ${{ vars.BEDROCK_MODEL_ID }}
+      TF_VAR_bedrock_model_arn: ${{ vars.BEDROCK_MODEL_ARN }}
+      TF_VAR_transcribe_enabled: ${{ vars.TRANSCRIBE_ENABLED || 'false' }}
+      TF_VAR_diarizer_url: ${{ vars.DIARIZER_URL }}
+      ECR_REPOSITORY_URL: ${{ vars.ECR_REPOSITORY_URL }}
+      STATE_BUCKET: ${{ vars.TERRAFORM_STATE_BUCKET }}
+      STATE_KEY: ${{ vars.TERRAFORM_STATE_KEY }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: ${{ vars.AWS_DEPLOY_ROLE_ARN }}
+          aws-region: ${{ vars.AWS_REGION }}
+      - uses: aws-actions/amazon-ecr-login@v2
+      - uses: docker/setup-qemu-action@v3
+      - uses: docker/setup-buildx-action@v3
+      - uses: docker/build-push-action@v6
+        id: build
+        with:
+          context: backend
+          platforms: linux/arm64
+          push: true
+          tags: ${{ vars.ECR_REPOSITORY_URL }}:${{ github.sha }}-${{ github.run_id }}-${{ github.run_attempt }}
+      - uses: aquasecurity/trivy-action@v0.36.0
+        with:
+          image-ref: ${{ vars.ECR_REPOSITORY_URL }}@${{ steps.build.outputs.digest }}
+          severity: CRITICAL,HIGH
+          exit-code: "1"
+      - uses: hashicorp/setup-terraform@v3
+        with: { terraform_version: "1.16.6", terraform_wrapper: false }
+      - name: Prepare immutable deployment
+        env:
+          IMAGE_DIGEST: ${{ steps.build.outputs.digest }}
+        run: |
+          echo "TF_VAR_image=${ECR_REPOSITORY_URL}@${IMAGE_DIGEST}" >> "$GITHUB_ENV"
+          terraform -chdir=infra/terraform init -input=false -backend-config="bucket=$STATE_BUCKET" -backend-config="key=$STATE_KEY" -backend-config="region=$AWS_REGION" -backend-config=encrypt=true -backend-config=use_lockfile=true
+      - run: terraform -chdir=infra/terraform plan -input=false -out=deploy.tfplan
+      - run: terraform -chdir=infra/terraform apply -input=false deploy.tfplan
+      - uses: actions/setup-python@v5
+        with: { python-version: "3.12" }
+      - run: pip install boto3
+      - name: Bootstrap secrets and promote after migrations
+        run: |
+          terraform -chdir=infra/terraform output -json > infra/deployment-outputs.json
+          python infra/bootstrap_secrets.py infra/deployment-outputs.json
+          python infra/deploy.py infra/deployment-outputs.json

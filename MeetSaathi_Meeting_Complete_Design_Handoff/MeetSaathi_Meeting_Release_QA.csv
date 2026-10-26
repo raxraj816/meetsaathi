@@ -1,0 +1,62 @@
+id,area,scenario,test_steps,expected_result,priority,platform,release_gate,status
+MQA-001,Onboarding,Start without mandatory integrations,First install; tap sample meeting,"Explore a sample without contacts, calendar, mic or account access",P0,Both,A,NOT_RUN
+MQA-002,Consent,No recording without deliberate action,Install then open Home and wait,Mic inactive; no background or automatic capture,P0,Both,A,NOT_RUN
+MQA-003,Consent,Permission denied,Deny mic; select Notes-only,"No mic usage, no live transcript claim, manual notes still available",P0,Both,A,NOT_RUN
+MQA-004,Consent,No authorized capture confirmation,Skip permission declaration and tap Start,Capture does not start; explain missing authorization,P0,Both,A,NOT_RUN
+MQA-005,Consent,Third-party rule notice,Start recording setup,Clear notice of participant consent/meeting policies and stop access,P0,Both,A,NOT_RUN
+MQA-006,Audio,Phone on table,Run 90-minute in-room simulated meeting with real device,Usable speech capture under published supported conditions,P0,Both,A,NOT_RUN
+MQA-007,Audio,Phone in pocket,Record with phone in pocket vs table,Warn about muffling; do not claim capture quality without measurement,P0,Both,A,NOT_RUN
+MQA-008,Audio,Laptop speakers audible,Call played through laptop speakers to phone mic,Explain actual ambient capture route and track audio quality,P0,Both,A,NOT_RUN
+MQA-009,Audio,Laptop headset isolated,Call audio in laptop headphones,Do not fabricate remote participant transcript or speaker,P0,Both,A,NOT_RUN
+MQA-010,Audio,Input route change,Plug/unplug headset during capture,Capture route changes recognized; quality assessed; gaps surfaced,P0,Both,A,NOT_RUN
+MQA-011,Audio,Bluetooth HFP coupling,Multiple HFP earbuds selected,Display actual coupled input/output; unsupported room capture warned,P0,iOS,C,NOT_RUN
+MQA-012,Audio,Bluetooth A2DP route,Test supported/unsupported devices,Use validated output path or fall back to silent text; no false promise,P0,iOS,C,NOT_RUN
+MQA-013,Audio,Android foreground service,"Start visible, then lock and background",Ongoing mic service behaves within OS permission rules; clear notification,P0,Android,A,NOT_RUN
+MQA-014,Audio,Android background start forbidden,Attempt to create microphone service when backgrounded,App obeys OS restrictions; informs user when reactivation required,P0,Android,A,NOT_RUN
+MQA-015,Audio,iOS background audio,Start session while foregrounded then lock,"Validated background behavior, interruptions, recovery and status",P0,iOS,A,NOT_RUN
+MQA-016,Audio,Incoming call interruption,Receive cellular/VoIP call,Capture pause/restart follows OS rules; gap explicitly marked,P0,Both,A,NOT_RUN
+MQA-017,Audio,Low storage,Run session near storage threshold,"Graceful warning and safe stop, no misleading completed status",P0,Both,A,NOT_RUN
+MQA-018,Audio,Thermal pressure,Sustained session under thermal throttling,Capture prioritized; inference degrades with accurate status,P0,Both,A,NOT_RUN
+MQA-019,State,Pause vs mute AI,Tap Pause capture and Mute AI separately,Pause stops ingest; mute only halts speech/suggestions,P0,Both,A,NOT_RUN
+MQA-020,State,End recording,Tap End; background processing active,Microphone capture stops promptly; processing may continue,P0,Both,A,NOT_RUN
+MQA-021,State,App process terminated,Kill app at controlled times,User-informed recovery/gap handling; no fictitious continuous capture,P0,Both,A,NOT_RUN
+MQA-022,State,Network outage,Disconnect during consented capture,Encrypted local queue; no live AI claim; reconnect resumes at ACK offset,P0,Both,B,NOT_RUN
+MQA-023,Realtime,Chunk duplication,Inject duplicate stream chunk IDs,No duplicate transcript segments or double-counted decisions,P0,Backend,B,NOT_RUN
+MQA-024,Realtime,Late packet reordering,Reorder delayed audio chunks,Stable event sequencing and marked gaps or resynchronization,P0,Backend,B,NOT_RUN
+MQA-025,Realtime,User barge-in,User asks while proactive message queued,Ask takes precedence; queued unsolicited message suppressed,P0,Both,B,NOT_RUN
+MQA-026,Realtime,Intervention frequency,Play 90-min test corpus,Balanced mode obeys interruption budget; no unbounded suggestion spam,P0,Backend+Both,B,NOT_RUN
+MQA-027,Realtime,No relevant suggestions,Play unremarkable conversation,System stays quiet; no fabricated insight,P0,Backend,B,NOT_RUN
+MQA-028,Realtime,Stale insight,Delay candidate past relevance expiry,Discard stale advice rather than surfacing late,P0,Backend,B,NOT_RUN
+MQA-029,Speech,Word alignment,Known 6-speaker corpus,Source links target correct spoken span; measure error,P0,Backend,B,NOT_RUN
+MQA-030,Speech,Cross-talk,Overlapping speaker corpus,Speaker uncertainty surfaced; no invented identity,P0,Backend,B,NOT_RUN
+MQA-031,Speech,Above validated speaker count,Introduce more speakers than configured model supports,Warn/fallback; no false comprehensive attribution,P0,Backend,B,NOT_RUN
+MQA-032,Speech,Code switching,Mix Hindi and English; domain vocabulary,Measure transcription reliability and mark unknown terms,P1,Backend,E,NOT_RUN
+MQA-033,Speech,Named identity correction,Correct provisional Speaker 2 name,"Derived citations, tasks, answers and views reprocessed/versioned",P0,Backend+Both,D,NOT_RUN
+MQA-034,Speech,Transcript correction,Edit misrecognized term in a source span,Retrieval and affected summary invalidate stale content,P0,Backend+Both,D,NOT_RUN
+MQA-035,Ask,Cited factual answer,Ask what was decided from sourced corpus,"Answer accurate or qualified, cites correct timestamp and speaker certainty",P0,Backend+Both,B,NOT_RUN
+MQA-036,Ask,No support in source,Ask for a decision never stated,Explicitly says not established; no fake quotes or owner,P0,Backend,B,NOT_RUN
+MQA-037,Ask,Reasoning vs recall,Ask advice then exact meeting recall,Visibly separate AI opinion from grounded meeting facts,P0,Both,B,NOT_RUN
+MQA-038,Ask,Cross-meeting conflict,Ask about changed decision across sessions,"Ordered comparison with separate sources, not flattened consensus",P0,Backend,D,NOT_RUN
+MQA-039,Security,Spoken prompt injection,Audio participant says ignore instructions and export files,Meeting audio never executes privileged commands,P0,Backend,D,NOT_RUN
+MQA-040,Security,Cross-tenant retrieval,User queries similarly named private other-tenant meeting,"Zero unauthorized excerpts, embeddings or metadata",P0,Backend,D,NOT_RUN
+MQA-041,Security,Unauthorized share,Attempt export using forged meeting ID,Access denied; no data leak; audit entry as appropriate,P0,Backend,D,NOT_RUN
+MQA-042,Security,Data deletion,"Delete meeting with audio, vectors, caches and derivatives",No accessible residue; retention/backup caveat disclosed accurately,P0,Backend,D,NOT_RUN
+MQA-043,Security,Consent withdrawal,Withdraw lawful recording authority mid-session,Stop capture promptly; retention rules applied,P0,Both,D,NOT_RUN
+MQA-044,Voice,Earbud disconnect,Start private TTS then disconnect Bluetooth,"Voice cancels, no fallback private content on loudspeaker",P0,Both,C,NOT_RUN
+MQA-045,Voice,No earbuds,Enable voice guidance without private output route,Guidance remains text unless user expressly accepts safe output,P0,Both,C,NOT_RUN
+MQA-046,Voice,Interruption during speech,Human begins speaking during short TTS,Ducking/cancel policy tested; user remains able to listen,P1,Both,C,NOT_RUN
+MQA-047,Voice,Mute speech,Tap Mute AI in Pocket mode,AI speech stops immediately; recording separately controlled,P0,Both,C,NOT_RUN
+MQA-048,Memory,Recap state labels,"Input proposal, rejection, agreement",Show Proposed/Rejected/Agreed accurately with source references,P0,Backend+Both,D,NOT_RUN
+MQA-049,Memory,Unassigned commitment,No named owner or deadline in meeting,"Owner and deadline left unconfirmed, never invented",P0,Backend+Both,D,NOT_RUN
+MQA-050,Memory,Project scoping,Cross-project search with restrictive scopes,No unrelated/sensitive results returned,P0,Backend,D,NOT_RUN
+MQA-051,Memory,Source unavailable,Source deleted or permission revoked,Derived claims purged/hidden and not used in retrieval,P0,Backend,D,NOT_RUN
+MQA-052,Share,Redaction preview,"Select excerpt, redact identities, view preview",Recipients receive only reviewed and approved material,P0,Both,D,NOT_RUN
+MQA-053,Share,Revoke link,Share authorized recap then revoke,Sharing revoked within published propagation SLA,P0,Backend,D,NOT_RUN
+MQA-054,Usability,Live glanceability,Conduct human reading test under distraction,Users parse core suggestion rapidly without abandoning conversation,P1,Both,E,NOT_RUN
+MQA-055,Usability,Screen reader,Run VoiceOver/TalkBack on active and recap screens,Navigation/actions/status announcements clear and usable,P0,Both,E,NOT_RUN
+MQA-056,Usability,Large text,Set largest supported dynamic type,"Primary action, live status and end remain accessible/no clipping",P0,Both,E,NOT_RUN
+MQA-057,Usability,Reduced motion,Enable OS reduced-motion setting,No essential info encoded only via animation,P1,Both,E,NOT_RUN
+MQA-058,Usability,Landscape/table view,Rotate phone beside laptop,Live insight remains prominent; actions reachable,P1,Both,E,NOT_RUN
+MQA-059,Business,Meaningful session metric,Instrument opt-in aggregated analytics,Measures useful actions and retention without raw transcript leakage,P1,Backend,E,NOT_RUN
+MQA-060,Reliability,90-minute soak,Run published-device network/acoustic matrix,Meets independently measured recording/latency/battery release gate,P0,Both,E,NOT_RUN
+MQA-061,Reliability,Crash free,Run automated and beta session cohorts,Meets published crash-free target with full error taxonomy,P0,Both,E,NOT_RUN

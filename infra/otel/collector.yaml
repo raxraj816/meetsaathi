@@ -1,0 +1,33 @@
+receivers:
+  otlp:
+    protocols:
+      http:
+        endpoint: 127.0.0.1:4318
+processors:
+  memory_limiter:
+    check_interval: 1s
+    limit_mib: 180
+    spike_limit_mib: 30
+  batch:
+    timeout: 5s
+exporters:
+  awsxray:
+    region: ${env:AWS_REGION}
+  awsemf:
+    region: ${env:AWS_REGION}
+    namespace: MeetSaathi
+    log_group_name: ${env:MS_METRICS_LOG_GROUP}
+    log_stream_name: '{TaskId}'
+    dimension_rollup_option: NoDimensionRollup
+    resource_to_telemetry_conversion:
+      enabled: true
+service:
+  pipelines:
+    traces:
+      receivers: [otlp]
+      processors: [memory_limiter, batch]
+      exporters: [awsxray]
+    metrics:
+      receivers: [otlp]
+      processors: [memory_limiter, batch]
+      exporters: [awsemf]

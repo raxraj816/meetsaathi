@@ -1,0 +1,25 @@
+item_id,priority,workstream,deliverable,release_gate,definition_of_done,status
+IMP-001,P0,Foundation,Create native app shells and shared UI tokens,Gate 0,Kotlin & Swift app compiles; Home/Live routes work,NOT_STARTED
+IMP-002,P0,Foundation,"Identity, tenanted spaces and access policy",Gate 0,Negative ACL tests prove isolation,NOT_STARTED
+IMP-003,P0,Foundation,Separate capture/AI/voice/retention permission flags,Gate 0,Forbidden combinations blocked in backend and UI,NOT_STARTED
+IMP-004,P0,Mobile,Native recording session state machines,Gate 1,"Start, pause, resume, end transitions tested on actual devices",NOT_STARTED
+IMP-005,P0,Mobile,"Encrypted local chunk spool, ACK and resumable upload",Gate 1,Reconnect exactly once; state and gaps auditable,NOT_STARTED
+IMP-006,P0,Backend,Realtime audio ingestion with idempotent sequence,Gate 1,"Checksums, retries, out-of-order and incomplete upload handled",NOT_STARTED
+IMP-007,P0,Mobile,Route and interruption detector,Gate 1,Actual mic/source and interrupted capture displayed,NOT_STARTED
+IMP-008,P0,AI,Streaming ASR baseline with provisional/final turn versions,Gate 2,Word timestamps and source segments measurable,NOT_STARTED
+IMP-009,P0,AI,Nemotron diarization adapter and alternative/fallback,Gate 2,Correctly handles overlap and >8 speaker conditions,NOT_STARTED
+IMP-010,P0,AI,ASR diarization alignment and speaker review,Gate 2,Attributed quotations link to versioned evidence,NOT_STARTED
+IMP-011,P0,UX,Live Focus single insight and transcript drawer,Gate 2,Glanceable from desk; no overflow at large type,NOT_STARTED
+IMP-012,P0,AI,Grounded Ask Remember + uncertainty,Gate 3,Correct citation/abstention with permission constraints,NOT_STARTED
+IMP-013,P0,AI,Proactive candidate filtering and timing scheduler,Gate 3,Abstention works; interruption precision audited,NOT_STARTED
+IMP-014,P0,Mobile,Earbud private TTS with hard mute on route loss,Gate 4,Never plays private speech through public speaker,NOT_STARTED
+IMP-015,P0,Memory,Retain/review/correct/delete with provenance cascade,Gate 5,No stale derivative visible after correction/deletion,NOT_STARTED
+IMP-016,P1,Modes,Meeting decision status and comparison view,Gate 5,Proposal vs decision vs deferred states tracked,NOT_STARTED
+IMP-017,P1,Modes,Learning explanation and teach-back studio,Gate 5,Lecture vs outside explanation tagged,NOT_STARTED
+IMP-018,P1,Modes,Interview adaptive mock and permission gates,Gate 5,Mock works; prohibited live assistance suppressed,NOT_STARTED
+IMP-019,P1,Modes,Conversation reflection and selective memory,Gate 5,User recollection never shown as participant quote,NOT_STARTED
+IMP-020,P1,Product,Unified next-session preparation experience,Gate 5,Scope-controlled briefing across permitted history,NOT_STARTED
+IMP-021,P0,Quality,Real-device matrix and long-session soak tests,Gate 6,Measured continuity/thermal/battery; release gates met,NOT_STARTED
+IMP-022,P0,Security,"Pen test, access and deletion threat simulations",Gate 6,No critical privacy or tenant isolation findings,NOT_STARTED
+IMP-023,P1,Global,"Localization, low-resource device and a11y QA",Gate 6,Supported markets and devices meet accessibility gates,NOT_STARTED
+IMP-024,P1,Launch,"Distribution, support, telemetry and legal reviews",Gate 6,"Store listings, consent, privacy controls and rollback ready",NOT_STARTED

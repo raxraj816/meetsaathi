@@ -1,0 +1,271 @@
+{
+  "document": "MeetSaathi Meeting Companion screen and event contracts",
+  "version": "1.0",
+  "status": "DESIGN_ONLY",
+  "disclaimer": "This document does not implement native microphone recording, LLM reasoning, speech recognition or authorization.",
+  "screens": [
+    {
+      "id": "M01",
+      "name": "Welcome",
+      "required_principle": "Capture status truthful; source-linked and permission scoped; no unintended recording."
+    },
+    {
+      "id": "M02",
+      "name": "Home",
+      "required_principle": "Capture status truthful; source-linked and permission scoped; no unintended recording."
+    },
+    {
+      "id": "M03",
+      "name": "Meeting scenario",
+      "required_principle": "Capture status truthful; source-linked and permission scoped; no unintended recording."
+    },
+    {
+      "id": "M04",
+      "name": "Consent and capture",
+      "required_principle": "Capture status truthful; source-linked and permission scoped; no unintended recording."
+    },
+    {
+      "id": "M05",
+      "name": "Audio preflight",
+      "required_principle": "Capture status truthful; source-linked and permission scoped; no unintended recording."
+    },
+    {
+      "id": "M06",
+      "name": "Ready",
+      "required_principle": "Capture status truthful; source-linked and permission scoped; no unintended recording."
+    },
+    {
+      "id": "M07",
+      "name": "Live Focus",
+      "required_principle": "Capture status truthful; source-linked and permission scoped; no unintended recording."
+    },
+    {
+      "id": "M08",
+      "name": "Insight detail",
+      "required_principle": "Capture status truthful; source-linked and permission scoped; no unintended recording."
+    },
+    {
+      "id": "M09",
+      "name": "Live captions",
+      "required_principle": "Capture status truthful; source-linked and permission scoped; no unintended recording."
+    },
+    {
+      "id": "M10",
+      "name": "Ask live",
+      "required_principle": "Capture status truthful; source-linked and permission scoped; no unintended recording."
+    },
+    {
+      "id": "M11",
+      "name": "Ask answer",
+      "required_principle": "Capture status truthful; source-linked and permission scoped; no unintended recording."
+    },
+    {
+      "id": "M12",
+      "name": "Pocket/earbuds",
+      "required_principle": "Capture status truthful; source-linked and permission scoped; no unintended recording."
+    },
+    {
+      "id": "M13",
+      "name": "Capture paused",
+      "required_principle": "Capture status truthful; source-linked and permission scoped; no unintended recording."
+    },
+    {
+      "id": "M14",
+      "name": "Offline/degraded",
+      "required_principle": "Capture status truthful; source-linked and permission scoped; no unintended recording."
+    },
+    {
+      "id": "M15",
+      "name": "End confirmation",
+      "required_principle": "Capture status truthful; source-linked and permission scoped; no unintended recording."
+    },
+    {
+      "id": "M16",
+      "name": "Processing",
+      "required_principle": "Capture status truthful; source-linked and permission scoped; no unintended recording."
+    },
+    {
+      "id": "M17",
+      "name": "Recap",
+      "required_principle": "Capture status truthful; source-linked and permission scoped; no unintended recording."
+    },
+    {
+      "id": "M18",
+      "name": "Speaker review",
+      "required_principle": "Capture status truthful; source-linked and permission scoped; no unintended recording."
+    },
+    {
+      "id": "M19",
+      "name": "Decision detail",
+      "required_principle": "Capture status truthful; source-linked and permission scoped; no unintended recording."
+    },
+    {
+      "id": "M20",
+      "name": "Memory Home",
+      "required_principle": "Capture status truthful; source-linked and permission scoped; no unintended recording."
+    },
+    {
+      "id": "M21",
+      "name": "Cross-meeting Ask",
+      "required_principle": "Capture status truthful; source-linked and permission scoped; no unintended recording."
+    },
+    {
+      "id": "M22",
+      "name": "Next meeting brief",
+      "required_principle": "Capture status truthful; source-linked and permission scoped; no unintended recording."
+    },
+    {
+      "id": "M23",
+      "name": "Share/export",
+      "required_principle": "Capture status truthful; source-linked and permission scoped; no unintended recording."
+    },
+    {
+      "id": "M24",
+      "name": "Privacy/settings",
+      "required_principle": "Capture status truthful; source-linked and permission scoped; no unintended recording."
+    }
+  ],
+  "state_machine": {
+    "states": [
+      "IDLE",
+      "PREFLIGHT",
+      "READY",
+      "RECORDING",
+      "PAUSED",
+      "STOPPING",
+      "FINALIZING",
+      "READY_TO_REVIEW",
+      "INTERRUPTED",
+      "DEGRADED",
+      "FAILED",
+      "DELETING",
+      "DELETED"
+    ],
+    "allowed_transitions": [
+      [
+        "IDLE",
+        "PREFLIGHT"
+      ],
+      [
+        "PREFLIGHT",
+        "READY"
+      ],
+      [
+        "READY",
+        "RECORDING"
+      ],
+      [
+        "RECORDING",
+        "PAUSED"
+      ],
+      [
+        "PAUSED",
+        "RECORDING"
+      ],
+      [
+        "RECORDING",
+        "STOPPING"
+      ],
+      [
+        "PAUSED",
+        "STOPPING"
+      ],
+      [
+        "STOPPING",
+        "FINALIZING"
+      ],
+      [
+        "FINALIZING",
+        "READY_TO_REVIEW"
+      ],
+      [
+        "RECORDING",
+        "INTERRUPTED"
+      ],
+      [
+        "INTERRUPTED",
+        "PAUSED"
+      ],
+      [
+        "RECORDING",
+        "DEGRADED"
+      ],
+      [
+        "DEGRADED",
+        "RECORDING"
+      ],
+      [
+        "FINALIZING",
+        "FAILED"
+      ],
+      [
+        "READY_TO_REVIEW",
+        "DELETING"
+      ],
+      [
+        "DELETING",
+        "DELETED"
+      ]
+    ]
+  },
+  "orthogonal_user_preferences": {
+    "behavior": [
+      "Listener",
+      "Ask",
+      "Companion"
+    ],
+    "delivery": [
+      "Text",
+      "Voice",
+      "Both"
+    ],
+    "proactive": [
+      "Quiet",
+      "Balanced",
+      "Active"
+    ],
+    "capture": [
+      "Not recording",
+      "Recording",
+      "Paused",
+      "Interrupted"
+    ]
+  },
+  "essential_event_types": [
+    "audio.chunk.ack",
+    "capture.state.changed",
+    "audio.route.changed",
+    "network.state.changed",
+    "transcript.partial",
+    "utterance.finalized",
+    "speaker.provisional",
+    "speaker.corrected",
+    "insight.candidate",
+    "insight.recommended",
+    "insight.dismissed",
+    "ask.requested",
+    "answer.ready",
+    "source.corrected",
+    "decision.versioned",
+    "meeting.finalized",
+    "memory.deleted",
+    "share.revoked"
+  ],
+  "source_ref": {
+    "meeting_id": "string",
+    "start_ms": "integer",
+    "end_ms": "integer",
+    "source_version": "integer",
+    "speaker_channel": "string or null",
+    "speaker_verified": "boolean"
+  },
+  "privacy_invariants": [
+    "Never activate recording without user action and applicable authorization",
+    "Never treat spoken meeting content as privileged AI instructions",
+    "Never silently redirect private voice to loudspeaker",
+    "Never claim a fact without appropriate source or external analysis label",
+    "Never leak cross-workspace memory",
+    "Stop capture promptly on end/permission withdrawal",
+    "User control of retention and deletion includes derived records"
+  ]
+}

@@ -1,0 +1,22 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "MeetSaathi realtime event envelope",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["event_id", "schema_version", "session_id", "sequence", "created_at", "type", "payload"],
+  "properties": {
+    "event_id": {"type": "string", "format": "uuid"},
+    "schema_version": {"const": "1.0"},
+    "session_id": {"type": "string", "format": "uuid"},
+    "sequence": {"type": "integer", "minimum": 0},
+    "created_at": {"type": "string", "format": "date-time"},
+    "type": {"enum": ["session.state_changed", "audio.chunk_ack", "transcript.partial", "transcript.final", "insight.delivered", "voice.route_lost", "memory.invalidated", "session.finalization_progress"]},
+    "payload": {"type": "object"}
+  },
+  "allOf": [
+    {"if": {"properties": {"type": {"const": "session.state_changed"}}}, "then": {"properties": {"payload": {"required": ["previous", "current", "reason", "audio_watermark_ms"]}}}},
+    {"if": {"properties": {"type": {"const": "audio.chunk_ack"}}}, "then": {"properties": {"payload": {"required": ["received_through_sequence", "gap_sequences", "checksum_confirmed"]}}}},
+    {"if": {"properties": {"type": {"const": "transcript.final"}}}, "then": {"properties": {"payload": {"required": ["utterance_id", "revision", "start_ms", "end_ms", "text", "is_final"]}}}},
+    {"if": {"properties": {"type": {"const": "insight.delivered"}}}, "then": {"properties": {"payload": {"required": ["insight_id", "short_text", "kind", "source_refs", "expires_at", "policy_version", "output_channel"]}}}}
+  ]
+}

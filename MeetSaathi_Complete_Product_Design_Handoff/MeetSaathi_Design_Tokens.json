@@ -1,0 +1,113 @@
+{
+  "name": "MeetSaathi",
+  "version": "1.0",
+  "status": "proposal—not a validated visual implementation",
+  "principles": [
+    "calm",
+    "glanceable",
+    "evidence-first",
+    "quiet-by-default",
+    "screen-and-earbud-aware"
+  ],
+  "color": {
+    "light": {
+      "background": "#F7F9FC",
+      "surface": "#FFFFFF",
+      "elevated": "#EAF0F6",
+      "primaryText": "#172338",
+      "secondaryText": "#51627A",
+      "accent": "#007E82",
+      "warning": "#9A5C00",
+      "danger": "#B73242",
+      "border": "#DBE4EE"
+    },
+    "dark": {
+      "background": "#0B1220",
+      "surface": "#111D2F",
+      "elevated": "#1A2A40",
+      "primaryText": "#F3F7FC",
+      "secondaryText": "#AFBCD0",
+      "accent": "#5CE0CC",
+      "warning": "#F4C56A",
+      "danger": "#FF7585",
+      "border": "#2A3A51"
+    }
+  },
+  "radiusDp": {
+    "micro": 8,
+    "control": 12,
+    "card": 18,
+    "sheet": 24
+  },
+  "spaceDp": [
+    4,
+    8,
+    12,
+    16,
+    20,
+    24,
+    32,
+    40
+  ],
+  "typeScaleSp": {
+    "caption": 12,
+    "secondary": 14,
+    "body": 16,
+    "section": 18,
+    "heading": 23,
+    "display": 30
+  },
+  "touchTargetDp": 48,
+  "animationMs": {
+    "fast": 120,
+    "standard": 180
+  },
+  "componentContracts": {
+    "CompanionStatusBar": [
+      "sessionState",
+      "elapsedTime",
+      "inputRoute",
+      "audioQuality",
+      "connectionState"
+    ],
+    "InsightCard": [
+      "kind",
+      "title",
+      "action",
+      "evidence",
+      "expiresAt",
+      "confidenceFlag",
+      "dismiss",
+      "save"
+    ],
+    "TranscriptPeek": [
+      "speakerSlot",
+      "confirmedNameOptional",
+      "text",
+      "timestamp",
+      "provisional"
+    ],
+    "AskSheet": [
+      "retrievalScope",
+      "inputText",
+      "quickPrompts",
+      "answerKind",
+      "citations",
+      "close"
+    ],
+    "PrivateAudioControl": [
+      "outputDevice",
+      "voiceEnabled",
+      "volume",
+      "routeSafety",
+      "mute"
+    ],
+    "EvidenceChip": [
+      "sessionId",
+      "utteranceId",
+      "timestampMs",
+      "revisionId"
+    ]
+  },
+  "source": "MeetSaathi_Product_Experience_Spec.md"
+}

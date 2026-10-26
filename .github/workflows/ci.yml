@@ -1,0 +1,66 @@
+name: ci
+on:
+  push:
+  pull_request:
+  workflow_call:
+permissions:
+  contents: read
+jobs:
+  backend:
+    runs-on: ubuntu-latest
+    services:
+      pg:
+        image: pgvector/pgvector:pg16
+        env: { POSTGRES_PASSWORD: postgres_dev_only, POSTGRES_DB: meetsaathi }
+        ports: ["55432:5432"]
+        options: --health-cmd "pg_isready -U postgres" --health-interval 5s --health-retries 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: { python-version: "3.12" }
+      - run: pip install --require-hashes -r backend/requirements.lock
+      - run: pip install -e 'backend[test]'
+      - run: cd backend && MS_ENV=test python -m pytest -q
+      - run: python qa/build_traceability.py --strict
+  android:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with: { distribution: temurin, java-version: "21" }
+      - run: cd apps/android && ./gradlew :app:testDebugUnitTest :app:assembleDebug :app:lintDebug
+  ios:
+    runs-on: macos-15
+    steps:
+      - uses: actions/checkout@v4
+      - run: cd apps/ios && swift test
+      - run: brew install xcodegen && cd apps/ios && xcodegen generate && xcodebuild -project MeetSaathi.xcodeproj -scheme MeetSaathi -destination 'generic/platform=iOS Simulator' build CODE_SIGNING_ALLOWED=NO
+  infrastructure:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: hashicorp/setup-terraform@v3
+        with: { terraform_version: "1.16.6" }
+      - run: terraform -chdir=infra/terraform fmt -check -recursive
+      - run: terraform -chdir=infra/terraform init -backend=false -input=false
+      - run: terraform -chdir=infra/terraform validate
+      - run: terraform -chdir=infra/terraform test
+  security:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with: { fetch-depth: 0 }
+      - uses: actions/setup-python@v5
+        with: { python-version: "3.12" }
+      - run: pip install pip-audit
+      - run: pip-audit --strict -r backend/requirements.lock --require-hashes --disable-pip
+      - uses: gitleaks/gitleaks-action@v2
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - uses: aquasecurity/trivy-action@v0.36.0
+        with:
+          scan-type: fs
+          scan-ref: .
+          severity: CRITICAL,HIGH
+          exit-code: "1"
+          scanners: vuln,secret

@@ -1,0 +1,318 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "MeetSaathi realtime event envelope (implemented v1)",
+  "description": "Master contract realtime_events_v1.json plus implementation extensions (marked x-extension). Envelope fields are unchanged. Delivered over WS /v1/sessions/{id}/realtime and GET /v1/sessions/{id}/events?after=N.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "event_id",
+    "schema_version",
+    "session_id",
+    "sequence",
+    "created_at",
+    "type",
+    "payload"
+  ],
+  "properties": {
+    "event_id": {
+      "type": "string",
+      "format": "uuid"
+    },
+    "schema_version": {
+      "const": "1.0"
+    },
+    "session_id": {
+      "type": "string",
+      "format": "uuid"
+    },
+    "sequence": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "type": {
+      "enum": [
+        "session.state_changed",
+        "audio.chunk_ack",
+        "transcript.partial",
+        "transcript.final",
+        "insight.delivered",
+        "voice.route_lost",
+        "memory.invalidated",
+        "session.finalization_progress",
+        "session.status",
+        "insight.expired",
+        "ask.answered",
+        "speaker.corrected",
+        "transcript.preview",
+        "transcript.preview_clear"
+      ]
+    },
+    "payload": {
+      "type": "object"
+    }
+  },
+  "x-extension-types": {
+    "session.status": "Truthful user-facing status copy {code, message, severity}. Codes: CAPTURE_INTERRUPTED, CAPTIONS_UNAVAILABLE, CAPTIONS_DELAYED, CAPTIONS_RESUMED, AUDIO_POOR, AUDIO_SOURCE_CHANGED, SPEAKERS_NEED_REVIEW, CONTROLS_UPDATED, CONTEXT_SWITCHED, CAPTURE_ENDED, REVIEW_SAVED, RECAP_REFRESHED.",
+    "insight.expired": "The single visible card is retired {insight_id, reason}: REPLACED, MUTED, DISMISSED, SAVED, SOURCE_CORRECTED.",
+    "ask.answered": "An Ask completed {ask_id, mode, provenance_label}; queued unsolicited suggestions are suppressed.",
+    "speaker.corrected": "{alias, verified_label|null, mapping_revision, user_supplied}.",
+    "transcript.preview": "Display-only unfinished hypothesis {run_id, preview_id, start_ms, end_ms, text, is_final:false, evidence:false}. Replace the current live draft; never create a citation or feed claims. Expire locally after 15 seconds without an update.",
+    "transcript.preview_clear": "Retract draft {run_id, preview_id?, reason}. Apply only if run_id matches and preview_id is absent or matches. STREAM_RECOVERED/STREAM_CLOSED clear the run; PROVIDER_FINAL clears the matching hypothesis."
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "type": {
+            "const": "session.state_changed"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "payload": {
+            "required": [
+              "previous",
+              "current",
+              "reason",
+              "audio_watermark_ms"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "type": {
+            "const": "audio.chunk_ack"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "payload": {
+            "required": [
+              "received_through_sequence",
+              "gap_sequences",
+              "checksum_confirmed"
+            ],
+            "properties": {
+              "gap_sequences": {
+                "type": "array",
+                "maxItems": 1000,
+                "items": {
+                  "type": "integer",
+                  "minimum": 0,
+                  "maximum": 9223372036854775806
+                }
+              },
+              "gap_sequences_truncated": {
+                "type": "boolean",
+                "description": "True when more missing IDs exist than this bounded hint lists; absence in older releases means unspecified."
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "type": {
+            "const": "transcript.partial"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "payload": {
+            "required": [
+              "utterance_id",
+              "revision",
+              "start_ms",
+              "end_ms",
+              "text",
+              "is_final"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "type": {
+            "const": "transcript.final"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "payload": {
+            "required": [
+              "utterance_id",
+              "revision",
+              "start_ms",
+              "end_ms",
+              "text",
+              "is_final"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "type": {
+            "const": "insight.delivered"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "payload": {
+            "required": [
+              "insight_id",
+              "short_text",
+              "kind",
+              "source_refs",
+              "expires_at",
+              "policy_version",
+              "output_channel"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "type": {
+            "const": "memory.invalidated"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "payload": {
+            "required": [
+              "reason",
+              "claim_ids"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "type": {
+            "const": "session.finalization_progress"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "payload": {
+            "required": [
+              "status",
+              "retryable",
+              "terminal",
+              "message"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "type": {
+            "const": "transcript.preview"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "payload": {
+            "required": [
+              "run_id",
+              "preview_id",
+              "start_ms",
+              "end_ms",
+              "text",
+              "is_final",
+              "evidence"
+            ],
+            "properties": {
+              "is_final": {
+                "const": false
+              },
+              "evidence": {
+                "const": false
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "type": {
+            "const": "transcript.preview_clear"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "payload": {
+            "required": [
+              "run_id",
+              "reason"
+            ]
+          }
+        }
+      }
+    }
+  ],
+  "x-client-messages": {
+    "auth": {
+      "type": "auth",
+      "access_token": "string",
+      "cursor": "integer (last processed sequence)"
+    },
+    "ack": {
+      "type": "ack",
+      "sequence": "integer"
+    },
+    "signal": {
+      "type": "signal",
+      "user_speaking": "boolean (local VAD)"
+    },
+    "voice.route_lost": {
+      "type": "voice.route_lost",
+      "note": "client has already hard-muted locally"
+    },
+    "route": {
+      "type": "route",
+      "input_route": "string",
+      "output_route": "string",
+      "private_route_verified": "boolean",
+      "device_name": "string",
+      "audio_quality": "GOOD|POOR|SILENT_OR_BLOCKED"
+    }
+  },
+  "x-capture-counter-semantics": {
+    "range": "Capture sequence -1 (empty) through 9223372036854775806; nonnegative capture milliseconds through 9223372036854775807. Upload duration must fit the end timestamp.",
+    "ack": "received_through_sequence is authoritative; gap_sequences is a bounded hint (up to 1000 IDs). Native clients retain and replay every unacknowledged local chunk, including IDs outside the hint.",
+    "stop": "The effective final_sequence is at least the largest stored sequence. End cannot discard already acknowledged source audio through a stale or omitted client watermark.",
+    "gaps": "UPLOAD_MISSING includes missing_sequence_from/to and time_bounds_estimated. Missing tails may have end_ms=null. capture_end_ms is a client-declared outer bound, not recorded evidence."
+  }
+}

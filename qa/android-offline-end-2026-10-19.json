@@ -1,0 +1,14 @@
+{
+  "date": "2026-10-19",
+  "environment": "Android 15 API 35 emulator ms35; local PostgreSQL/FastAPI",
+  "session_id": "d833e393-744f-4528-af3a-7155305f1113",
+  "scenario": "Capture real AudioRecord buffers, stop backend, confirm End, force-stop/relaunch offline, restart backend, relaunch for recovery",
+  "observed_pending_stop": {"final_sequence": 41, "at_ms": 42157},
+  "observed_next_sequence": 42,
+  "microphone_foreground_service_after_end": "absent",
+  "pending_stop_survived_offline_restart": true,
+  "capture_auto_restarted": false,
+  "server_after_recovery": {"state": "COMPLETED", "final_sequence": 41, "received_through_sequence": 41, "finalization_status": "COMPLETE"},
+  "local_spool_directory_after_recovery": "removed",
+  "scope_limit": "Emulator audio was silent. No real speech provider, physical device, Bluetooth, battery or background-duration acceptance was tested."
+}

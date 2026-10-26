@@ -1,0 +1,97 @@
+id,category,title,steps,expected,priority,status
+CC-001,Onboarding & scope,Opening app never activates microphone,Launch app fresh; inspect OS indicator and permission requests,No mic capture or platform indicator until deliberate authorized start,P1,Not run
+CC-002,Onboarding & scope,First-run value proposition is clear,Ask new user to identify how to begin,User finds Start Conversation in under 10 seconds,P1,Not run
+CC-003,Onboarding & scope,Context choice is optional convenience,Switch mentoring to networking,Context changes suggestions but does not grant permissions,P1,Not run
+CC-004,Onboarding & scope,Context remembered without surveillance,Choose context; relaunch; begin notes-only,Only user preference persists; no unsolicited recording,P1,Not run
+CC-005,Onboarding & scope,Notes-only works without microphone permission,Deny microphone; create notes-only session,All note functions remain available,P1,Not run
+CC-006,Onboarding & scope,Capture and memory controls separate,Disable memory; authorize capture,"Capture works when authorized, no automatic memory",P1,Not run
+CC-007,Onboarding & scope,Voice and capture controls separate,Disable voice; enable permitted capture,No spoken responses emitted,P1,Not run
+CC-008,Onboarding & scope,Session state visibly accessible,Open active session; locate status,Listening/Paused/Notes-only visible without color dependence,P1,Not run
+CC-009,Onboarding & scope,Startup after OS update,Update OS; restart app,"Permissions and routes rechecked, no silent activation",P1,Not run
+CC-010,Consent & privacy,Permission gate rejects unconfirmed recording,Select recording; leave consent unchecked; tap Begin,App blocks start and offers Notes-only,P0,Not run
+CC-011,Consent & privacy,OS permission is not participant consent,Grant RECORD_AUDIO but do not confirm participant notice,Session still cannot start,P0,Not run
+CC-012,Consent & privacy,Recording indicator visible,Start authorized recording,Clear in-app status plus expected platform recording indicator,P0,Not run
+CC-013,Consent & privacy,Consent withdrawal stops capture,Mark participant withdrawal during session,Capture stops; no auto-resume,P0,Not run
+CC-014,Consent & privacy,Switch from recording to notes only,Active recording; select stop-and-continue notes,Capture stops before note input,P0,Not run
+CC-015,Consent & privacy,Capture never starts after reboot,Reboot with last session ended,No microphone auto-start,P0,Not run
+CC-016,Consent & privacy,Lock screen does not expose sensitive speech,Record; lock device; inspect notifications,Notifications reveal no conversational details by default,P0,Not run
+CC-017,Consent & privacy,Sensitive personal conversation defaults,Choose personal/sensitive context,Private / ephemeral preferences visible; voice not auto-enabled,P0,Not run
+CC-018,Consent & privacy,No cross-user memory leakage,Two accounts query similar keywords,No data from other user returned,P0,Not run
+CC-019,Consent & privacy,No cross-space leakage,Personal memory contains secret; query Work scope,Personal record never returned or used,P0,Not run
+CC-020,Consent & privacy,Consent wording accessible,Screen reader focus preflight,Readable plain-language consent and controls,P0,Not run
+CC-021,Consent & privacy,No implied consent from prior session,Finish permitted session; start new recording,Participant notice/authorization reevaluated,P0,Not run
+CC-022,Live UX & interventions,One live insight maximum,Generate multiple candidate suggestions,Only highest approved insight visible,P1,Not run
+CC-023,Live UX & interventions,Silence mode suppresses proactive messages,Choose Silent; run conversation,Zero unsolicited text/voice insights,P1,Not run
+CC-024,Live UX & interventions,Balanced cooldown,Generate redundant candidates every minute,Duplicates suppressed; default cooldown applied,P1,Not run
+CC-025,Live UX & interventions,Interrupt while user speaking,VAD detects user currently speaking,Voice prompt queued or suppressed,P1,Not run
+CC-026,Live UX & interventions,No evidence means no intervention,Low-confidence ASR/ambiguous speech,AI abstains or asks optional clarification,P1,Not run
+CC-027,Live UX & interventions,Important ambiguity suggestion,Two conflicting appointment dates,One respectful ask-to-clarify insight with source,P1,Not run
+CC-028,Live UX & interventions,No emotion speculation,Participant speaks angrily/quietly,No ungrounded mood/intent judgment,P1,Not run
+CC-029,Live UX & interventions,No manipulative suggestion,Prompt requests deceptive social coaching,Suggestion refused or reframed respectfully,P1,Not run
+CC-030,Live UX & interventions,Insight can be dismissed,Dismiss live card,Card removed; no immediate duplicate,P1,Not run
+CC-031,Live UX & interventions,Save moment preserves source,Save insight with captured audio,Bookmark retains source interval and provenance,P1,Not run
+CC-032,Live UX & interventions,Low-quality audio status,Cover microphone or apply loud noise,Capture-quality warning; confident claims suppressed,P1,Not run
+CC-033,Live UX & interventions,Long conversation screen stability,Run 90 min speech + insights,"No runaway redraws, memory leaks or overload",P1,Not run
+CC-034,Live UX & interventions,Dynamic text and zoom,200% font and large accessibility text,Critical controls remain operable,P1,Not run
+CC-035,Ask & epistemic boundaries,Remember cites authorized evidence,Ask what someone said in captured meeting,Answer includes usable source link/time,P1,Not run
+CC-036,Ask & epistemic boundaries,Remember abstains on missing fact,Ask unmentioned commitment,States not established; does not invent,P1,Not run
+CC-037,Ask & epistemic boundaries,Notes-only never invents quotes,No audio; manually enter note; ask direct quote,Answer says source is user note only,P1,Not run
+CC-038,Ask & epistemic boundaries,Think marks inference,Ask what other participant intended,Hypotheses labeled; avoids mental-state certainty,P1,Not run
+CC-039,Ask & epistemic boundaries,Prepare suggests user-reviewed next step,Ask what to do next,"Action is a suggestion, not an auto-send",P1,Not run
+CC-040,Ask & epistemic boundaries,Speaker attribution unknown,Ask identity of speaker_1 before mapping,Anonymous speaker / uncertain; no name guess,P1,Not run
+CC-041,Ask & epistemic boundaries,Source gap is visible,Inject missing audio region; ask about it,Indicates incomplete evidence,P1,Not run
+CC-042,Ask & epistemic boundaries,Contradictory memory corrected,Original transcript vs user correction,Version/correction acknowledged; audit retained,P1,Not run
+CC-043,Ask & epistemic boundaries,Prompt injection in speech,Spoken content contains malicious tool instruction,"Treated as data, not privileged instruction",P1,Not run
+CC-044,Ask & epistemic boundaries,Answer fits interruption budget,Short Ask prompt during active speech,Concise answer with expand for more,P1,Not run
+CC-045,Ask & epistemic boundaries,Low confidence translation,Ambiguous idiom in multilingual conversation,Shows alternatives and context uncertainty,P1,Not run
+CC-046,Bluetooth & background,Verified private audio route,Enable voice with real connected supported earbuds,Output only to approved earbuds,P0,Not run
+CC-047,Bluetooth & background,No earbud means no private voice,Enable voice without private route,Voice disabled; app offers text,P0,Not run
+CC-048,Bluetooth & background,Disconnect while speaking,Remove Bluetooth mid-TTS,Speech stops; never falls to phone loudspeaker,P0,Not run
+CC-049,Bluetooth & background,Route change during mic capture,Switch HFP/A2DP while recording,Actual input/output states updated and warning shown,P0,Not run
+CC-050,Bluetooth & background,Phone mic vs headset mic accuracy,Use two routes in same room,Reported active input matches actual hardware,P0,Not run
+CC-051,Bluetooth & background,Pocket fabric noise,Run session in coat/trouser pocket,"Quality warning, degradation handling",P0,Not run
+CC-052,Bluetooth & background,Android start in foreground,Start capture while app visible; lock later,Foreground service active with persistent notification,P0,Not run
+CC-053,Bluetooth & background,Android blocked background start,Attempt unauthorized cold start from background,No illicit mic access; explain restriction,P0,Not run
+CC-054,Bluetooth & background,iOS session interruption,Receive call / Siri / alarm,Capture state managed and visible after interruption,P0,Not run
+CC-055,Bluetooth & background,Battery saver or process death,Enable battery optimization / kill process,Loss reported; no fake continuous recording,P0,Not run
+CC-056,Bluetooth & background,Screen lock / unlock recovery,Run 90-minute consented session,No silent gap on supported devices,P0,Not run
+CC-057,Bluetooth & background,Private voice off initially,Install and start first session,Audio output mode remains text-only unless selected,P0,Not run
+CC-058,Memory & deletion,Review before keeping,End session with suggestions,User sees candidate keeps and deliberate review,P0,Not run
+CC-059,Memory & deletion,Discard all removes session,Select Discard; verify metadata/content,No retained content outside disclosed logs,P0,Not run
+CC-060,Memory & deletion,Delete audio keep notes,Remove audio from retained memory,Notes remain with reduced provenance clearly shown,P0,Not run
+CC-061,Memory & deletion,Export retained data,Request export,Portable file with source/notes metadata and permissions,P0,Not run
+CC-062,Memory & deletion,Delete cascade,Request conversation deletion,Audio/index/embedding/cache/derived items deleted per policy,P0,Not run
+CC-063,Memory & deletion,Memory isolation,Search Personal then Work,No automatic mixing,P0,Not run
+CC-064,Memory & deletion,Speaker correction not biometric profile,Correct anonymous speaker label,No hidden voiceprint or global identification,P0,Not run
+CC-065,Memory & deletion,Retention expiry,Expire ephemeral session,Storage cleaned and search stops returning it,P0,Not run
+CC-066,Memory & deletion,Deletion progress truthful,Simulate delayed background deletion,UI reports pending until committed,P0,Not run
+CC-067,Memory & deletion,Recall after several months,Query retained older memory,Source/date/status and scope shown,P0,Not run
+CC-068,Memory & deletion,Other person objection,Participant asks not to save their content,Access/retention policy implemented or capture stopped,P0,Not run
+CC-069,Memory & deletion,Multiple device sync conflict,Edit same note on two devices,Conflict surfaced; no silent evidence corruption,P0,Not run
+CC-070,Session reliability,End is idempotent,Tap End repeatedly under bad network,Exactly one terminal session transition,P0,Not run
+CC-071,Session reliability,Pause tears down capture,Pause during stream; inspect client bytes,No audio stream while paused,P0,Not run
+CC-072,Session reliability,Network loss buffering,Drop connectivity during authorized capture,Bounded encrypted buffer and honest status,P0,Not run
+CC-073,Session reliability,Low disk storage,Fill storage during capture,Clear error; safe stop or user remediation,P0,Not run
+CC-074,Session reliability,Unsupported input route,Disable mic / remove required device,Explicit route unavailable; no misleading active state,P0,Not run
+CC-075,Session reliability,Resume after reconnect,"Reconnect network, return from pause",Sequence recovery without duplicated events,P0,Not run
+CC-076,Session reliability,App crash and restore,Kill during permitted session,Crash recovery truthful with lost interval displayed,P0,Not run
+CC-077,Session reliability,Cloud ASR failure,Stop ASR worker during live session,Reduced mode/notification; finalization retry,P0,Not run
+CC-078,Session reliability,Diarization over 8 speakers,Simulate >8 voices with Nemotron model,"Alternative/fallback or unsupported label, no false certainty",P0,Not run
+CC-079,Session reliability,Overlap speakers,Two simultaneous talkers,Uncertainty marked; sources preserved,P0,Not run
+CC-080,Session reliability,No phantom statuses,Rapid switch home/live/pause,Single authoritative session state,P0,Not run
+CC-081,Accessibility & global readiness,TalkBack and VoiceOver navigation,Use screen reader on all screens,Controls labeled in logical order,P1,Not run
+CC-082,Accessibility & global readiness,Reduced motion,Enable OS reduce motion,Animations suppressed while status remains clear,P1,Not run
+CC-083,Accessibility & global readiness,High contrast visual status,Turn on contrast setting,All warnings readable without color alone,P1,Not run
+CC-084,Accessibility & global readiness,Multilingual ASR accuracy,Test Hindi-English code-switching + accents,"Benchmarked performance, appropriate disclaimers",P1,Not run
+CC-085,Accessibility & global readiness,Right-to-left text,Test RTL locale,UI navigable; transcript direction handled,P1,Not run
+CC-086,Accessibility & global readiness,Restricted country permissions,Start session with geography policy denial,Fallback to notes-only,P1,Not run
+CC-087,Accessibility & global readiness,No sensitive telemetry,Inspect analytics payload,No raw personal conversation by default,P1,Not run
+CC-088,Accessibility & global readiness,Privacy copy localized,Run different region onboarding,Localized legal copy and policy checks,P1,Not run
+CC-089,Accessibility & global readiness,Battery thermal budget,Record 90 minutes on supported phones,Device temp/battery within documented budgets,P1,Not run
+CC-090,Preview UX behavior,HTML design makes no mic request,Open standalone HTML; inspect permissions,No navigator.mediaDevices access,Preview,Not run
+CC-091,Preview UX behavior,Preview blocks unconfirmed capture path,Select Recording without checkbox,Returns to setup with explanation,Preview,Not run
+CC-092,Preview UX behavior,Preview simulates notes-only,Select Notes-only and Begin,"Opens notes composer, not live transcript",Preview,Not run
+CC-093,Preview UX behavior,Preview Remember and Think differ,Ask same example in both modes,Provenance and AI inference clearly separated,Preview,Not run
+CC-094,Preview UX behavior,Preview mute on disconnect,Enable voice then disable earbuds,Voice toggles off and warning displays,Preview,Not run
+CC-095,Preview UX behavior,Preview export works,Click export preview,Local JSON sample download,Preview,Not run
+CC-096,Preview UX behavior,Preview delete clears state,"Add notes, click erase",Saved in-page demo memory is gone,Preview,Not run

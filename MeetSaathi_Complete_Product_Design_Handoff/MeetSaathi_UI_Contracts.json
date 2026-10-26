@@ -1,0 +1,313 @@
+{
+  "version": "1.0",
+  "description": "Design contracts, not running application endpoints or implemented UI",
+  "assistanceModes": [
+    "listener",
+    "ask",
+    "companion"
+  ],
+  "deliveryModes": [
+    "silent_text",
+    "private_voice",
+    "text_and_voice"
+  ],
+  "answerKinds": [
+    "conversation_fact",
+    "suggestion",
+    "external_explanation",
+    "insufficient_evidence"
+  ],
+  "captureStates": [
+    "NOT_STARTED",
+    "PREFLIGHT",
+    "CAPTURING",
+    "DEGRADED",
+    "CAPTURE_INTERRUPTED",
+    "RESUMING",
+    "STOPPING",
+    "STOPPED",
+    "PROCESSING",
+    "READY",
+    "BLOCKED_PERMISSION",
+    "BLOCKED_CONSENT",
+    "UNSUPPORTED_ROUTE",
+    "CANCELLED"
+  ],
+  "screenContracts": [
+    {
+      "id": "S01",
+      "title": "Welcome",
+      "primaryAction": "Get started",
+      "criticalStates": [
+        "first-time setup"
+      ],
+      "priority": "P0"
+    },
+    {
+      "id": "S02",
+      "title": "Permissions and disclosure",
+      "primaryAction": "Continue to setup",
+      "criticalStates": [
+        "mic denied",
+        "consent missing"
+      ],
+      "priority": "P0"
+    },
+    {
+      "id": "S03",
+      "title": "Home",
+      "primaryAction": "Start Companion",
+      "criticalStates": [
+        "not configured",
+        "active session"
+      ],
+      "priority": "P0"
+    },
+    {
+      "id": "S04",
+      "title": "Session setup",
+      "primaryAction": "Start",
+      "criticalStates": [
+        "bad capture source",
+        "consent incomplete"
+      ],
+      "priority": "P0"
+    },
+    {
+      "id": "S05",
+      "title": "Audio preflight",
+      "primaryAction": "Continue",
+      "criticalStates": [
+        "microphone unavailable",
+        "Bluetooth route unsupported"
+      ],
+      "priority": "P0"
+    },
+    {
+      "id": "S06",
+      "title": "Live dashboard",
+      "primaryAction": "Ask / End",
+      "criticalStates": [
+        "quiet/active/degraded"
+      ],
+      "priority": "P0"
+    },
+    {
+      "id": "S07",
+      "title": "Full transcript",
+      "primaryAction": "Find / evidence",
+      "criticalStates": [
+        "provisional",
+        "speaker unknown"
+      ],
+      "priority": "P0"
+    },
+    {
+      "id": "S08",
+      "title": "Ask sheet",
+      "primaryAction": "Send question",
+      "criticalStates": [
+        "no evidence",
+        "empty",
+        "offline"
+      ],
+      "priority": "P0"
+    },
+    {
+      "id": "S09",
+      "title": "Insight details",
+      "primaryAction": "Explore / dismiss",
+      "criticalStates": [
+        "outdated insight"
+      ],
+      "priority": "P0"
+    },
+    {
+      "id": "S10",
+      "title": "Voice controls",
+      "primaryAction": "Mute voice",
+      "criticalStates": [
+        "earbud disconnect",
+        "route unsafe"
+      ],
+      "priority": "P0"
+    },
+    {
+      "id": "S11",
+      "title": "Recovery",
+      "primaryAction": "Resume / stop",
+      "criticalStates": [
+        "network loss",
+        "capture interrupted"
+      ],
+      "priority": "P0"
+    },
+    {
+      "id": "S12",
+      "title": "Session completed",
+      "primaryAction": "View notes",
+      "criticalStates": [
+        "processing in progress"
+      ],
+      "priority": "P0"
+    },
+    {
+      "id": "S13",
+      "title": "Memory detail",
+      "primaryAction": "Ask about this",
+      "criticalStates": [
+        "provisional / corrected"
+      ],
+      "priority": "P0"
+    },
+    {
+      "id": "S14",
+      "title": "Evidence player",
+      "primaryAction": "Play clip / correct",
+      "criticalStates": [
+        "clip unavailable"
+      ],
+      "priority": "P0"
+    },
+    {
+      "id": "S15",
+      "title": "Memories library",
+      "primaryAction": "Search",
+      "criticalStates": [
+        "no sessions",
+        "offline"
+      ],
+      "priority": "P0"
+    },
+    {
+      "id": "S16",
+      "title": "Global Ask",
+      "primaryAction": "Ask",
+      "criticalStates": [
+        "scope none",
+        "permission denied"
+      ],
+      "priority": "P0"
+    },
+    {
+      "id": "S17",
+      "title": "Speaker review",
+      "primaryAction": "Confirm identity",
+      "criticalStates": [
+        "overlap / no identity"
+      ],
+      "priority": "P0"
+    },
+    {
+      "id": "S18",
+      "title": "Preferences",
+      "primaryAction": "Change settings",
+      "criticalStates": [
+        "unsupported device"
+      ],
+      "priority": "P0"
+    },
+    {
+      "id": "S19",
+      "title": "Data and privacy",
+      "primaryAction": "Export / delete",
+      "criticalStates": [
+        "deletion pending"
+      ],
+      "priority": "P0"
+    },
+    {
+      "id": "S20",
+      "title": "Desktop bridge",
+      "primaryAction": "Pair computer",
+      "criticalStates": [
+        "pairing denied/unavailable"
+      ],
+      "priority": "P1"
+    },
+    {
+      "id": "S21",
+      "title": "Pre-meeting brief",
+      "primaryAction": "Open memory",
+      "criticalStates": [
+        "no prior sessions"
+      ],
+      "priority": "P1"
+    },
+    {
+      "id": "S22",
+      "title": "Activity inbox",
+      "primaryAction": "Confirm owner",
+      "criticalStates": [
+        "candidate action unverified"
+      ],
+      "priority": "P1"
+    },
+    {
+      "id": "S23",
+      "title": "Landscape live",
+      "primaryAction": "Ask",
+      "criticalStates": [
+        "small device width"
+      ],
+      "priority": "P1"
+    },
+    {
+      "id": "S24",
+      "title": "Insight feedback",
+      "primaryAction": "Useful / Not useful",
+      "criticalStates": [
+        "offline upload pending"
+      ],
+      "priority": "P0"
+    }
+  ],
+  "coreInvariants": [
+    "Never record before explicit user start and recording prerequisites",
+    "Show Capturing only after actual audio frames",
+    "Never automatically speak private advice on phone loudspeaker after earbud disconnect",
+    "Never assign real speaker identities solely from diarization",
+    "Every sourced meeting claim must include permission-scoped playable evidence",
+    "Do not conceal network or capture gaps",
+    "Stop capture on device immediately even if backend is unavailable",
+    "Speaker correction invalidates affected derived memories",
+    "Do not reveal cross-tenant information in any result or citation",
+    "Honor AI-assistance rules in interviews and similar assessments"
+  ],
+  "eventTypes": [
+    "app.opened",
+    "session.preflight",
+    "session.started",
+    "capture.healthy",
+    "capture.interrupted",
+    "session.route_changed",
+    "transcript.revised",
+    "insight.candidate",
+    "insight.delivered",
+    "insight.dismissed",
+    "ask.submitted",
+    "ask.answered",
+    "voice.muted",
+    "speaker.corrected",
+    "session.stopped",
+    "memory.ready",
+    "session.deleted"
+  ],
+  "sample": {
+    "type": "insight.delivered",
+    "session_id": "ses_example",
+    "sequence": 187,
+    "payload": {
+      "kind": "suggestion",
+      "title": "Recovery owner unclear",
+      "action": "Ask who will validate rollback.",
+      "evidence": [
+        {
+          "utterance_id": "utt_91",
+          "start_ms": 2035000
+        }
+      ],
+      "delivery": "screen_text"
+    }
+  }
+}

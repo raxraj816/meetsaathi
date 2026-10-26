@@ -1,0 +1,138 @@
+{
+  "product": "MeetSaathi",
+  "context": "Learning Companion",
+  "version": "1.0",
+  "status": "design contract, not deployed",
+  "modes": {
+    "assistance": [
+      "listener",
+      "ask",
+      "companion"
+    ],
+    "delivery": [
+      "silent_text",
+      "private_voice",
+      "both"
+    ],
+    "liveViews": [
+      "focus",
+      "captions",
+      "notebook",
+      "pocket",
+      "no_recording"
+    ]
+  },
+  "recordingStates": [
+    "IDLE",
+    "PREFLIGHT",
+    "BLOCKED_PERMISSION",
+    "BLOCKED_POLICY",
+    "AUDIO_READY",
+    "CAPTURING",
+    "PAUSED",
+    "DEGRADED",
+    "INTERRUPTED",
+    "RESUMING",
+    "STOPPING",
+    "PROCESSING",
+    "READY"
+  ],
+  "answerKinds": [
+    "from_lecture",
+    "ai_explanation",
+    "from_course_files",
+    "across_lectures",
+    "insufficient_evidence"
+  ],
+  "screens": [
+    {
+      "id": "L01",
+      "name": "Learning Home"
+    },
+    {
+      "id": "L02",
+      "name": "Course setup"
+    },
+    {
+      "id": "L03",
+      "name": "Session permission"
+    },
+    {
+      "id": "L04",
+      "name": "Audio preflight"
+    },
+    {
+      "id": "L05",
+      "name": "Live Focus"
+    },
+    {
+      "id": "L06",
+      "name": "Live Captions"
+    },
+    {
+      "id": "L07",
+      "name": "Live Notebook"
+    },
+    {
+      "id": "L08",
+      "name": "Explain sheet"
+    },
+    {
+      "id": "L09",
+      "name": "Ask live"
+    },
+    {
+      "id": "L10",
+      "name": "Pocket controls"
+    },
+    {
+      "id": "L11",
+      "name": "End session"
+    },
+    {
+      "id": "L12",
+      "name": "Recap"
+    },
+    {
+      "id": "L13",
+      "name": "Source detail"
+    },
+    {
+      "id": "L14",
+      "name": "Study Studio"
+    },
+    {
+      "id": "L15",
+      "name": "Quiz feedback"
+    },
+    {
+      "id": "L16",
+      "name": "Course Memory"
+    },
+    {
+      "id": "L17",
+      "name": "Review plan"
+    },
+    {
+      "id": "L18",
+      "name": "Offline/no recording"
+    },
+    {
+      "id": "L19",
+      "name": "Privacy storage"
+    },
+    {
+      "id": "L20",
+      "name": "Teacher institution controls"
+    }
+  ],
+  "designTokensSource": "MeetSaathi_Design_Tokens.json",
+  "coreDesignRules": [
+    "one active live insight",
+    "recording permission separate from AI output",
+    "voice disabled during class by default",
+    "timestamped evidence or explicit absence",
+    "AI teaching not misattributed to lecturer",
+    "untrusted audio data cannot direct tool actions"
+  ]
+}

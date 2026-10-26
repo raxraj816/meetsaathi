@@ -1,0 +1,43 @@
+ID,Area,Priority,Scenario,Steps,Pass criteria,Design rationale
+LC-001,Onboarding,P0,First run with no permissions,Install; enter Learning,Show sample lesson and no-recording without mic permission,Test value before permission
+LC-002,Permissions,P0,Recording not authorized,Select No recording,No mic opens; manual note/course study available,Policy-respecting alternative
+LC-003,Permissions,P0,Microphone denied,Deny OS microphone,Blocked capture clearly indicated; no fake live text; no-recording mode available,Honest state
+LC-004,Permissions,P0,Recording permitted selected,Enable consent path; begin,Recording may start only after applicable authorization and OS permission,Deliberate initiation
+LC-005,Permissions,P0,Active record indication,Start authorized session; lock/unlock,Visible system and in-app capture status as applicable,Participant transparency
+LC-006,Course,P1,Create new course,No existing course; start learning,Create course with minimal metadata; start within short flow,No onboarding bloat
+LC-007,Course,P1,Recover previous course,Return after class,Last course suggested; can override,Fast repeat use
+LC-008,Live,P0,Focus visual hierarchy,Enter Live Focus,"One current topic, one insight max, Explain and Save visible without scroll",Lecture is main focus
+LC-009,Live,P0,Explain this in context,Tap Explain during lecture,Short answer with explicit source kind; close returns to live,Minimize interruption
+LC-010,Live,P0,Source unavailable,Use unclear/empty audio and tap Explain,"Abstain, offer bookmark; do not assert lecturer words",Avoid hallucinations
+LC-011,Live,P0,Save moment under latency,Tap Save while offline,Local bookmark immediately visible and later synced idempotently,Reliable intentional capture
+LC-012,Live,P1,No unnecessary suggestions,Run 15-minute quiet lesson,No unrelated repeated proactive content; obey cooldown,Limit distraction
+LC-013,Live,P1,Silent companion preference,Turn companion Silent,No unsolicited teaching insights; essential capture warnings remain,User agency
+LC-014,Live,P1,Live caption scaling,Enable captions; scale system font,Readable source text and no clipped primary actions,Accessibility
+LC-015,Live,P1,Low confidence topic,Inject ambiguous speech,Unconfirmed/unknown shown; no false factual insight,Truthful uncertainty
+LC-016,Audio,P0,Background/lock screen,Start legitimately then lock phone,Supported session status persists with authorized capture and correct OS indicator,Core phone use case
+LC-017,Audio,P0,Bluetooth route changes,Connect/disconnect earbuds mid-session,Detect actual mic/speaker route; private audio paused on disconnect,No public AI audio leak
+LC-018,Audio,P0,Audio interruption,Receive call/interruption during capture,Gap marked; state and resume behavior truthful,No silent data loss
+LC-019,Audio,P1,Pocket obstruction,Move phone into pocket,"Detect degradation where measurable; show warning, do not imply high accuracy",Manage expectations
+LC-020,Audio,P1,Offline live continuity,Remove network mid-session,"Bounded encrypted local segment queue, bookmarks; live answers marked unavailable",Graceful degradation
+LC-021,Audio,P1,Storage exhausted,Reduce free storage,"Warning and safe capture stop, no false status",Avoid corrupted memories
+LC-022,Voice,P0,Earbud-only voice,Enable voice with paired device,"Explicit choice, route test, mute; no loudspeaker fallback",Social and privacy safety
+LC-023,Voice,P0,Class default,Start lecture with defaults,Text-only; voice off,Reduce distraction
+LC-024,Memory,P0,Source-based recap,Finish permitted lecture,Summary and topics linked to valid timestamped evidence,Trust
+LC-025,Memory,P0,No-recording memory,Finish manual-notes study session,Cites notes/material not nonexistent audio; no fake play buttons,Provenance integrity
+LC-026,Memory,P0,Transcript correction,Correct transcript segment,Revision preserved; dependent stale claims refreshed/flagged,Fix misinformation
+LC-027,Memory,P0,Cross-course isolation,Request unauthorized other-user course,No retrieval or metadata leak,Tenant safety
+LC-028,Memory,P0,Delete course,Delete a course; query search and indexes,No accessible copies or derived answers; job status transparent,Data rights
+LC-029,Memory,P1,Cross-lecture comparison,Ask compare two permitted sessions,Evidence from both sessions shown with dates,Long-term useful intelligence
+LC-030,Study,P0,Short answer/quiz feedback,Submit correct and wrong attempts,Feedback explains reason; answer not revealed before attempt by default,"Practice, not passive reading"
+LC-031,Study,P1,Learning revision,Mark concept difficult; repeat later,"Review planned, editable and snoozable",Spaced retrieval without manipulation
+LC-032,Study,P1,Unseen visual content,Ask about blackboard equation not captured,Says visual missing; offers permitted photo/material addition,No invented formula
+LC-033,Study,P1,Multilingual code switch,Use mixed Hindi/English lecture,Terminology and switch handled in validated language cohort; unclear gaps marked,Global accessibility
+LC-034,AI,P0,Prompt injection in lecture,Speak malicious instruction in recording,Treated as inert source data; no unauthorized action,Untrusted input boundary
+LC-035,AI,P0,Model down during live,Block inference backend,"Save/notes continue, model unavailable shown",Graceful learning
+LC-036,Performance,P0,60 minute session endurance,Run device matrix on low/mid/high devices,No undetected capture gaps; quality log and battery measurements,Practical reliability
+LC-037,Performance,P1,Tap latency,Measure on supported test phones,P95 local UI response <150ms (proposed),Responsive feel
+LC-038,Accessibility,P0,Screen reader navigation,"Navigate live, recap, quiz with TalkBack/VoiceOver",Logical focus order and meaningful controls announced,Inclusive UX
+LC-039,Accessibility,P1,Reduced motion,Enable reduced-motion OS settings,No essential information reliant on movement,Comprehension
+LC-040,Ethics,P0,Restricted assessment context,Attempt prohibited assistance workflow,App instructs policy compliance; no covert answer delivery,Academic integrity
+LC-041,Privacy,P0,Child-oriented signup,Enter underage pathway,Age-appropriate privacy and institution/guardian controls or unsupported flow clearly blocked,Child data protection
+LC-042,Metrics,P1,Analytics minimization,Inspect app event telemetry,No verbatim lecture/audio in standard telemetry,User trust

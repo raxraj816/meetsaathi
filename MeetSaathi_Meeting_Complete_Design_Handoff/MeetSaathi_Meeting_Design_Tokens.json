@@ -1,0 +1,42 @@
+{
+  "product": "MeetSaathi",
+  "experience": "Meeting Companion",
+  "version": "1.0",
+  "colors": {
+    "background": "#081522",
+    "surface": "#132839",
+    "raised": "#183B38",
+    "border": "#2C495A",
+    "text": "#F0F8F8",
+    "secondaryText": "#A0B8C6",
+    "accent": "#70E6D0",
+    "caution": "#FFCF8A",
+    "danger": "#FF9BA7",
+    "pageCanvas": "#EAF0F2"
+  },
+  "typography": {
+    "display": 30,
+    "title": 23,
+    "headline": 18,
+    "body": 14,
+    "supporting": 12,
+    "micro": 10
+  },
+  "radii": {
+    "card": 19,
+    "hero": 23,
+    "button": 13,
+    "phoneFrame": 46
+  },
+  "minTouchTargets": {
+    "iOS_pt": 44,
+    "Android_dp": 48
+  },
+  "principles": [
+    "One live priority insight",
+    "Visibly distinguish AI suggestion from meeting evidence",
+    "Native dynamic type and accessibility",
+    "Use amber for open questions, rose for errors and capture stop",
+    "No flashing or constantly animated visual distractions"
+  ]
+}

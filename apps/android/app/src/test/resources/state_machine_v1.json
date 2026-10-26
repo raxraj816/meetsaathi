@@ -1,0 +1,70 @@
+{
+  "version": "1.0",
+  "source": "backend/app/domain/state_machine.py",
+  "transitions": {
+    "PREFLIGHT": [
+      "DELETING",
+      "ERROR",
+      "NOTES_ONLY",
+      "STARTING",
+      "STOPPING"
+    ],
+    "NOTES_ONLY": [
+      "DELETING",
+      "STARTING",
+      "STOPPING"
+    ],
+    "STARTING": [
+      "DELETING",
+      "ERROR",
+      "INTERRUPTED",
+      "RECORDING",
+      "STOPPING"
+    ],
+    "RECORDING": [
+      "DELETING",
+      "INTERRUPTED",
+      "PAUSED",
+      "STOPPING"
+    ],
+    "PAUSED": [
+      "DELETING",
+      "STARTING",
+      "STOPPING"
+    ],
+    "INTERRUPTED": [
+      "DELETING",
+      "STARTING",
+      "STOPPING"
+    ],
+    "STOPPING": [
+      "DELETING",
+      "FINALIZING"
+    ],
+    "FINALIZING": [
+      "COMPLETED",
+      "COMPLETED_PARTIAL",
+      "DELETING",
+      "FINALIZATION_RETRYABLE"
+    ],
+    "FINALIZATION_RETRYABLE": [
+      "DELETING",
+      "FINALIZING"
+    ],
+    "COMPLETED": [
+      "DELETING"
+    ],
+    "COMPLETED_PARTIAL": [
+      "DELETING"
+    ],
+    "ERROR": [
+      "DELETING",
+      "STARTING",
+      "STOPPING"
+    ],
+    "DELETING": [
+      "DELETED"
+    ],
+    "DELETED": []
+  }
+}

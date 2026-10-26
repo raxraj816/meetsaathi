@@ -1,0 +1,4 @@
+-keepattributes *Annotation*, InnerClasses
+-keep,includedescriptorclasses class app.meetsaathi.core.**$$serializer { *; }
+-keepclassmembers class app.meetsaathi.core.** { *** Companion; }
+-keepclasseswithmembers class app.meetsaathi.core.** { kotlinx.serialization.KSerializer serializer(...); }

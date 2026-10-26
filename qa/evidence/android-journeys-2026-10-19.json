@@ -1,0 +1,180 @@
+{
+  "date": "2026-10-19",
+  "environment": "Android 15 API 35 emulator (ms35), local FastAPI + PostgreSQL, seeded via qa/e2e/seed_journeys.py with explicit test doubles (scripted ASR/diarizer/reasoner)",
+  "driver": "qa/e2e/android_journeys.py",
+  "passed": 34,
+  "total": 34,
+  "steps": [
+    {
+      "step": "welcome shows promise",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "step": "signed in to Home",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "step": "recap outcomes first",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "step": "memory detail shows sources",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "step": "evidence play control present",
+      "pass": true,
+      "detail": "\u25b6 Play 00:00"
+    },
+    {
+      "step": "evidence plays or finishes without error",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "step": "decision status changed",
+      "pass": true,
+      "detail": "Discussed"
+    },
+    {
+      "step": "action detail shows owner card",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "step": "owner confirmed",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "step": "share preview before link",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "step": "share link created",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "step": "recipient page renders (no audio, no script)",
+      "pass": true,
+      "detail": "HTTP 200"
+    },
+    {
+      "step": "revoked link no longer opens",
+      "pass": true,
+      "detail": "HTTP 404"
+    },
+    {
+      "step": "transcript shows lines with play controls",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "step": "review saved, back home",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "step": "kept memory listed",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "step": "project screen",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "step": "brief built from kept items",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "step": "decision ledger lists decision",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "step": "default saved",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "step": "preflight keeps consent gate despite default",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "step": "live session started",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "step": "timed note saved during recording",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "step": "withdrawal lands on recap",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "step": "note appears in recap with its moment",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "step": "server stopped the session",
+      "pass": true,
+      "detail": "COMPLETED"
+    },
+    {
+      "step": "local spool purged for withdrawn session",
+      "pass": true,
+      "detail": "(empty)"
+    },
+    {
+      "step": "microphone service not running",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "step": "second live session started",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "step": "capture stops before note input",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "step": "microphone service stopped before notes",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "step": "post-stop note saved",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "step": "finish opens recap",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "step": "post-stop note in recap",
+      "pass": true,
+      "detail": ""
+    }
+  ],
+  "scope_limit": "Emulator only. No physical device, real speech/AI provider, Bluetooth route, background duration, TalkBack audit or store build was tested. Evidence audio was a synthetic tone."
+}

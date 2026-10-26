@@ -1,0 +1,629 @@
+openapi: 3.1.0
+info:
+  title: MeetSaathi Unified API
+  version: 1.0.0-draft
+  description: Normative starting point for production implementation; no live endpoints are deployed by this file.
+servers:
+- url: https://api.example.invalid/v1
+security:
+- bearerAuth: []
+paths:
+  /sessions:
+    post:
+      operationId: createSession
+      summary: Create preflight session in an authorized space
+      parameters:
+      - $ref: '#/components/parameters/IdempotencyKey'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateSessionRequest'
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Session'
+        '403':
+          $ref: '#/components/responses/Error'
+  /sessions/{sessionId}:
+    parameters:
+    - $ref: '#/components/parameters/SessionId'
+    get:
+      operationId: getSession
+      responses:
+        '200':
+          description: Current authoritative state
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Session'
+        '403':
+          $ref: '#/components/responses/Error'
+    delete:
+      operationId: deleteSession
+      parameters:
+      - $ref: '#/components/parameters/IdempotencyKey'
+      responses:
+        '202':
+          description: Access revoked and purge requested
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DeletionStatus'
+  /sessions/{sessionId}/start:
+    parameters:
+    - $ref: '#/components/parameters/SessionId'
+    post:
+      operationId: startSession
+      parameters:
+      - $ref: '#/components/parameters/IdempotencyKey'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/StartSessionRequest'
+      responses:
+        '200':
+          description: Start authorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Session'
+        '422':
+          $ref: '#/components/responses/Error'
+  /sessions/{sessionId}/pause:
+    parameters:
+    - $ref: '#/components/parameters/SessionId'
+    post:
+      operationId: pauseSession
+      parameters:
+      - $ref: '#/components/parameters/IdempotencyKey'
+      responses:
+        '200':
+          description: Paused
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Session'
+        '409':
+          $ref: '#/components/responses/Error'
+  /sessions/{sessionId}/resume:
+    parameters:
+    - $ref: '#/components/parameters/SessionId'
+    post:
+      operationId: resumeSession
+      parameters:
+      - $ref: '#/components/parameters/IdempotencyKey'
+      responses:
+        '200':
+          description: Preflight revalidated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Session'
+        '422':
+          $ref: '#/components/responses/Error'
+  /sessions/{sessionId}/stop:
+    parameters:
+    - $ref: '#/components/parameters/SessionId'
+    post:
+      operationId: stopSession
+      parameters:
+      - $ref: '#/components/parameters/IdempotencyKey'
+      responses:
+        '202':
+          description: Capture stopped; finalization may continue
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Session'
+  /sessions/{sessionId}/ask:
+    parameters:
+    - $ref: '#/components/parameters/SessionId'
+    post:
+      operationId: askSession
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AskRequest'
+      responses:
+        '200':
+          description: Grounded response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AskResponse'
+        '403':
+          $ref: '#/components/responses/Error'
+  /sessions/{sessionId}/utterances:
+    parameters:
+    - $ref: '#/components/parameters/SessionId'
+    get:
+      operationId: getUtterances
+      parameters:
+      - name: cursor
+        in: query
+        required: false
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Authorized utterance revisions
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  items:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Utterance'
+                  next_cursor:
+                    type:
+                    - string
+                    - 'null'
+  /sessions/{sessionId}/speakers/{alias}:
+    parameters:
+    - $ref: '#/components/parameters/SessionId'
+    - name: alias
+      in: path
+      required: true
+      schema:
+        type: string
+    patch:
+      operationId: correctSpeaker
+      parameters:
+      - $ref: '#/components/parameters/IdempotencyKey'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - verified_label
+              - expected_revision
+              properties:
+                verified_label:
+                  type: string
+                expected_revision:
+                  type: integer
+                  minimum: 1
+      responses:
+        '202':
+          description: Mapping revision accepted and dependent reindex queued
+        '409':
+          $ref: '#/components/responses/Error'
+  /memories:
+    get:
+      operationId: searchMemories
+      parameters:
+      - name: space_id
+        in: query
+        required: true
+        schema:
+          type: string
+          format: uuid
+      - name: q
+        in: query
+        required: false
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Scoped memory results
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  items:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/MemoryItem'
+  /memories/retain:
+    post:
+      operationId: retainMemories
+      parameters:
+      - $ref: '#/components/parameters/IdempotencyKey'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - space_id
+              - claim_ids
+              properties:
+                space_id:
+                  type: string
+                  format: uuid
+                claim_ids:
+                  type: array
+                  items:
+                    type: string
+                    format: uuid
+      responses:
+        '202':
+          description: Memory retention request accepted
+  /sessions/{sessionId}/consent-receipts:
+    parameters:
+    - $ref: '#/components/parameters/SessionId'
+    post:
+      operationId: createConsentReceipt
+      summary: Create and verify an attestation, separate for capture and live AI
+      parameters:
+      - $ref: '#/components/parameters/IdempotencyKey'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - capture_basis
+              - notices_attested
+              - ai_assistance_permitted
+              - processing_disclosure_version
+              properties:
+                capture_basis:
+                  type: string
+                notices_attested:
+                  type: boolean
+                ai_assistance_permitted:
+                  type: boolean
+                processing_disclosure_version:
+                  type: string
+      responses:
+        '201':
+          description: Consent receipt created subject to policy
+        '403':
+          $ref: '#/components/responses/Error'
+  /sessions/{sessionId}/ingest-token:
+    parameters:
+    - $ref: '#/components/parameters/SessionId'
+    post:
+      operationId: issueIngestToken
+      summary: Issue short-lived authenticated chunk ingest token after policy verification
+      responses:
+        '200':
+          description: Ephemeral ingest credential
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                - token
+                - expires_at
+                - resume_cursor
+                properties:
+                  token:
+                    type: string
+                  expires_at:
+                    type: string
+                    format: date-time
+                  resume_cursor:
+                    type: integer
+                    minimum: 0
+        '403':
+          $ref: '#/components/responses/Error'
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+  parameters:
+    SessionId:
+      name: sessionId
+      in: path
+      required: true
+      schema:
+        type: string
+        format: uuid
+    IdempotencyKey:
+      name: Idempotency-Key
+      in: header
+      required: true
+      schema:
+        type: string
+        minLength: 12
+        maxLength: 128
+  responses:
+    Error:
+      description: Structured error
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+  schemas:
+    Error:
+      type: object
+      required:
+      - code
+      - user_message
+      - retryable
+      - correlation_id
+      properties:
+        code:
+          type: string
+        user_message:
+          type: string
+        retryable:
+          type: boolean
+        correlation_id:
+          type: string
+        details:
+          type: object
+          additionalProperties: true
+    CreateSessionRequest:
+      type: object
+      additionalProperties: false
+      required:
+      - space_id
+      - context
+      - capture_source
+      - processing_region
+      properties:
+        space_id:
+          type: string
+          format: uuid
+        context:
+          type: string
+          enum:
+          - MEETING
+          - LEARNING
+          - INTERVIEW
+          - CONVERSATION
+        title:
+          type: string
+          maxLength: 160
+        capture_source:
+          type: string
+          enum:
+          - PHONE_MIC
+          - DESKTOP_BRIDGE
+          - IMPORTED
+          - NONE
+        processing_region:
+          type: string
+    StartSessionRequest:
+      type: object
+      required:
+      - consent_receipt_id
+      - capabilities_hash
+      properties:
+        consent_receipt_id:
+          type: string
+          format: uuid
+        capabilities_hash:
+          type: string
+        voice_enabled:
+          type: boolean
+          default: false
+        proactive_enabled:
+          type: boolean
+          default: false
+    Session:
+      type: object
+      required:
+      - session_id
+      - space_id
+      - context
+      - state
+      - capture_source
+      - version
+      properties:
+        session_id:
+          type: string
+          format: uuid
+        space_id:
+          type: string
+          format: uuid
+        context:
+          type: string
+          enum:
+          - MEETING
+          - LEARNING
+          - INTERVIEW
+          - CONVERSATION
+        state:
+          type: string
+          enum:
+          - PREFLIGHT
+          - STARTING
+          - RECORDING
+          - PAUSED
+          - INTERRUPTED
+          - STOPPING
+          - FINALIZING
+          - FINALIZATION_RETRYABLE
+          - COMPLETED
+          - COMPLETED_PARTIAL
+          - ERROR
+          - DELETING
+          - DELETED
+        capture_source:
+          type: string
+        source_watermark_ms:
+          type: integer
+          minimum: 0
+        version:
+          type: integer
+          minimum: 0
+        capture_permitted:
+          type: boolean
+        ai_assistance_permitted:
+          type: boolean
+    AskRequest:
+      type: object
+      required:
+      - question
+      - mode
+      - scope
+      properties:
+        question:
+          type: string
+          minLength: 1
+          maxLength: 4000
+        mode:
+          type: string
+          enum:
+          - REMEMBER
+          - THINK
+          - LEARN
+          - PREPARE
+        scope:
+          type: string
+          enum:
+          - CURRENT_SESSION
+          - SELECTED_SPACE
+          - SELECTED_PROJECT
+          - GENERAL
+        scope_id:
+          type:
+          - string
+          - 'null'
+          format: uuid
+    Citation:
+      type: object
+      required:
+      - utterance_id
+      - revision
+      - start_ms
+      - end_ms
+      properties:
+        utterance_id:
+          type: string
+          format: uuid
+        revision:
+          type: integer
+          minimum: 1
+        start_ms:
+          type: integer
+          minimum: 0
+        end_ms:
+          type: integer
+          minimum: 0
+        speaker_alias:
+          type:
+          - string
+          - 'null'
+    AskResponse:
+      type: object
+      required:
+      - mode
+      - answer
+      - provenance_label
+      - citations
+      - uncertainty
+      properties:
+        mode:
+          type: string
+        answer:
+          type: string
+        provenance_label:
+          type: string
+          enum:
+          - FROM_CONVERSATION
+          - FROM_USER_NOTE
+          - AI_ANALYSIS
+          - GENERAL_KNOWLEDGE
+          - INSUFFICIENT_EVIDENCE
+        citations:
+          type: array
+          items:
+            $ref: '#/components/schemas/Citation'
+        uncertainty:
+          type: string
+    Utterance:
+      type: object
+      required:
+      - utterance_id
+      - revision
+      - start_ms
+      - end_ms
+      - text
+      - is_final
+      properties:
+        utterance_id:
+          type: string
+          format: uuid
+        revision:
+          type: integer
+        start_ms:
+          type: integer
+          minimum: 0
+        end_ms:
+          type: integer
+          minimum: 0
+        text:
+          type: string
+        speaker_alias:
+          type:
+          - string
+          - 'null'
+        speaker_confidence:
+          type:
+          - number
+          - 'null'
+          minimum: 0
+          maximum: 1
+        is_final:
+          type: boolean
+    MemoryItem:
+      type: object
+      required:
+      - claim_id
+      - space_id
+      - text_value
+      - provenance
+      - memory_state
+      properties:
+        claim_id:
+          type: string
+          format: uuid
+        space_id:
+          type: string
+          format: uuid
+        text_value:
+          type: string
+        provenance:
+          type: string
+          enum:
+          - RECORDED
+          - IMPORTED
+          - USER_NOTE
+          - USER_RECOLLECTION
+          - AI_ANALYSIS
+        memory_state:
+          type: string
+          enum:
+          - PENDING_REVIEW
+          - APPROVED
+          - INVALIDATED
+          - DELETED
+    DeletionStatus:
+      type: object
+      required:
+      - request_id
+      - status
+      properties:
+        request_id:
+          type: string
+          format: uuid
+        status:
+          type: string
+          enum:
+          - REQUESTED
+          - IN_PROGRESS
+          - COMPLETE
+          - ACTION_REQUIRED
